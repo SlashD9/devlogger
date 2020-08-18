@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogFormComponent implements OnInit {
 
+  text: boolean;
+  
   constructor() { }
 
   ngOnInit(): void {
