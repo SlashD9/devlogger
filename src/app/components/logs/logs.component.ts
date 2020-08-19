@@ -15,7 +15,11 @@ export class LogsComponent implements OnInit {
   constructor(private logService: LogService) { }
 
   ngOnInit(): void {
-    this.logs = this.logService.getLogs();
+    // Because we want to get our data asyncrously we need to get the data by subscribing to 
+    // it and then setting the returned logs to local this.logs
+    this.logService.getLogs().subscribe(logs => {
+      this.logs = logs;
+    });
 }
 
   // we create a onSleect which is triggered by (click) and pass it the log that was clicked
@@ -24,4 +28,8 @@ export class LogsComponent implements OnInit {
   onSelect(log: Log) {
     this.logService.setFormLog(log);
   } 
+
+  onDelete(log: Log) {
+    console.log(log)
+  }
 }
