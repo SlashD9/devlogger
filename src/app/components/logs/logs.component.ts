@@ -17,4 +17,11 @@ export class LogsComponent implements OnInit {
   ngOnInit(): void {
     this.logs = this.logService.getLogs();
 }
+
+  // we create a onSleect which is triggered by (click) and pass it the log that was clicked
+  // this then sets the BehaviorSubject to the value passed and shows it in the log-form as 
+  // the log form is subscribed to show the data as long as the id !== null
+  onSelect(log: Log) {
+    this.logService.setFormLog(log);
+  } 
 }
