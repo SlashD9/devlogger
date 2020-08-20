@@ -11,14 +11,23 @@ import { LogService } from '../../services/log.service';
 export class LogsComponent implements OnInit {
 
   logs: Log[];
+  selectedLog: Log;
+  loaded: boolean = false;
 
   constructor(private logService: LogService) { }
 
   ngOnInit(): void {
+    this.logService.stateClear.subscribe(clear => {
+      if(clear) {
+        this.selectedLog = {id: '', text: '', date: ''}
+      }
+    })
+
     // Because we want to get our data asyncrously we need to get the data by subscribing to 
     // it and then setting the returned logs to local this.logs
     this.logService.getLogs().subscribe(logs => {
       this.logs = logs;
+      this.loaded = true;
     });
 }
 
@@ -27,6 +36,7 @@ export class LogsComponent implements OnInit {
   // the log form is subscribed to show the data as long as the id !== null
   onSelect(log: Log) {
     this.logService.setFormLog(log);
+    this.selectedLog = log;
   } 
 
   onDelete(log: Log) {
