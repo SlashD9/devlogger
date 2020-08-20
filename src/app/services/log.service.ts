@@ -1,56 +1,32 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
-// We import BehaviorSubject, Observable and of from Reactive Extensions
-import { BehaviorSubject, Observable, of } from 'rxjs'; 
 
-// We import Log from models
 import { Log } from '../models/Log';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LogService {
-  // We set local logs to type of Log array
   logs: Log[];
 
-  // We create a logSource as a new BehaviorSubject with the type of Log and set it to intial vals of null
   private logSource = new BehaviorSubject<Log>({id: null, text: null, date: null});
-  // Here we take the logSource and set it as an Observable so it can be subscribed to
   selectedLog = this.logSource.asObservable();
-  
-  constructor() {
-    // Created log data
+
+  constructor() { 
     this.logs = [
-      {
-        id: '1',
-        text: 'Generated Components', 
-        date: new Date('12/26/2020 12:54:23')
-      },
-      {
-        id: '2',
-        text: 'Added Bootstrap', 
-        date: new Date('12/26/2020 13:56:10')
-      },
-      {
-        id: '3',
-        text: 'Added Logs Component', 
-        date: new Date('12/27/2020 10:20:15')
-      }
+      {id: '1', text: 'Generated components', date: new Date('12/26/2017 12:54:23')},
+      {id: '2', text: 'Added Bootstrap', date: new Date('12/27/2017 9:33:13')},
+      {id: '3', text: 'Added logs component', date: new Date('12/27/2017 12:00:23')}
     ]
   }
 
-  // getLogs() Returns the logs data
   getLogs(): Observable<Log[]> {
     return of(this.logs);
   }
 
-  // setFormLog() this takes in a selected log and sets it as the behavior subject and an observable then
-  // Sends it back to the component that called it which they need to subscribe to
   setFormLog(log: Log) {
     this.logSource.next(log);
   }
 
-  // Add Log function
   addLog(log: Log) {
     this.logs.unshift(log);
   }
@@ -60,8 +36,16 @@ export class LogService {
       if(log.id === cur.id) {
         this.logs.splice(index, 1);
       }
-      this.logs.unshift(log);
-    })
-}
-}
+    });
+    this.logs.unshift(log);
+  }
 
+  deleteLog(log: Log) {
+    this.logs.forEach((cur, index) => {
+      if(log.id === cur.id) {
+        this.logs.splice(index, 1);
+      }
+    });
+  }
+
+}

@@ -30,6 +30,6 @@ export class LogsComponent implements OnInit {
   } 
 
   onDelete(log: Log) {
-    console.log(log)
+    this.logService.deleteLog(log);
   }
 }
