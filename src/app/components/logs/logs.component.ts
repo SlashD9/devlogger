@@ -40,6 +40,8 @@ export class LogsComponent implements OnInit {
   } 
 
   onDelete(log: Log) {
-    this.logService.deleteLog(log);
+    if(confirm('Are you sure?')){
+      this.logService.deleteLog(log);
+    }
   }
 }
